@@ -23,7 +23,7 @@ class User extends Authenticatable
         'password',
         'profile_pic',
         'follower',
-        'following'
+        'following',
     ];
 
     /**
