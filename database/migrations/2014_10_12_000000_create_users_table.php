@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('profile_pic');
-            $table->integer('follower');
-            $table->integer('following');
+            $table->string('profile_pic')->default('https://i.pravatar.cc/160?img=');
+            $table->integer('follower')->default(0);
+            $table->integer('following')->default(0);
+
+            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamps();
+            $table->rememberToken();
         });
     }
 
