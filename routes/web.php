@@ -33,3 +33,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+foreach (scandir($path = app_path('Http\Module')) as $dir) {
+    if (file_exists($filepath = "{$path}/{$dir}/Presentation/web.php")) {
+        require $filepath;
+    }
+}
