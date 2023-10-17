@@ -10,6 +10,14 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
+                    <div class="col">
+                        <!--Nama diambil dari database-->
+                        <span style="font-size: x-large;">{{$user->name}}</span>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <!--Gambar sesuai gambar profil-->
+                        <img src="{{ $user->profile_pic }}" alt="Example Image" style="border-radius: 50%;" width="180" height="180">
+                    </div>
                 </div>
             </div>
         </div>
