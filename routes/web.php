@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,5 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+foreach (scandir($path = app_path('Http/Module')) as $dir) {
+    if (file_exists($filepath = "{$path}/{$dir}/Presentation/web.php")) {
+        require $filepath;
+    }
+}
 
 require __DIR__.'/auth.php';
