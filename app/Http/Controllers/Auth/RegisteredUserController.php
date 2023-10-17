@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
         if ($request->hasFile('profile_pic')) {
             $image = $request->file('profile_pic');
         $imageName = 'custom_image_name.jpg'; // You can define a custom file name
-        $imagePath = $image->storeAs('images', $imageName, 'public');
+        $imagePath = $image->storeAs('/storage/images', $imageName, 'public');
         } else {
             $imagePath = 'images/AyamKecap.jpeg'; // You can set a default image path
         }

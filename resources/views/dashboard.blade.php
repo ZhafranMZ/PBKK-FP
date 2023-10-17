@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md-5 text-center">
                         <!--Gambar sesuai gambar profil-->
-                        <img src="{{ $user->profile_pic }}" alt="Example Image" style="border-radius: 50%;" width="180" height="180">
+                        <img src="{{ $user->profile_pic }}" alt="Example Image" style="border: 2px solid #000000; border-radius: 50%;" width="180" height="180">
                     </div>
                 </div>
             </div>
