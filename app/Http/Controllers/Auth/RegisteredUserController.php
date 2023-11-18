@@ -11,16 +11,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): Response
     {
-        return view('auth.register');
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -31,26 +32,15 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'profile_pic' => ['required', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
-
-        if ($request->hasFile('profile_pic')) {
-            $image = $request->file('profile_pic');
-        $imageName = 'custom_image_name.jpg'; // You can define a custom file name
-        $imagePath = $image->storeAs('/storage/images', $imageName, 'public');
-        } else {
-            $imagePath = 'images/AyamKecap.jpeg'; // You can set a default image path
-        }
-
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_pic' => $imagePath,
         ]);
 
         event(new Registered($user));
