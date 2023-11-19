@@ -87,7 +87,7 @@ const getUploadedImage = (e) => {
 </script>
 
 <template>
-    <Head title="Instagram" />
+    <Head title="Echo" />
 
     <Layout>
         <div class="pt-2 md:pt-6"></div>
