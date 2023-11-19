@@ -3,8 +3,9 @@ import { reactive, toRefs } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3';
 
 import Layout from '@/Layouts/Layout.vue';
-// import ShowPostOverlay from '@/Components/ShowPostOverlay.vue'
+import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
 import UserContent from '@/Components/UserContent.vue'
+
 
 import Cog from 'vue-material-design-icons/Cog.vue';
 import Grid from 'vue-material-design-icons/Grid.vue';
@@ -203,7 +204,7 @@ const getUploadedImage = (e) => {
         </div>
     </Layout>
 
-    <!-- <ShowPostOverlay
+    <PostDetailOverlay
         v-if="data.post"
         :post="data.post"
         @addComment="addComment($event)"
@@ -212,7 +213,7 @@ const getUploadedImage = (e) => {
             deleteFunc($event);
         "
         @closeOverlay="data.post = null"
-    /> -->
+    />
 </template>
 
 
