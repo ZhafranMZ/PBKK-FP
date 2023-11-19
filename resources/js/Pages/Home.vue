@@ -136,9 +136,10 @@
                 <InteractionSection
                    
                 />
-                <!-- Likes prop -->
+                <!-- Intercaction prop -->
                 <!-- :post="post"
                     @like="updateLike($event)" -->
+                <!-- End region -->
 
                 <!-- <div class="text-black font-extrabold py-1">{{ post.likes.length }} likes</div>
                 <div>

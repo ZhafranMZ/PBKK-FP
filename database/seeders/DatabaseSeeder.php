@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Feed::factory(20)->create();
-        Story::factory(20)->create();
+        // Feed::factory(20)->create();
+        // Story::factory(20)->create();
         // $this->call([
         //     FeedSeeder::class,
         // ]);

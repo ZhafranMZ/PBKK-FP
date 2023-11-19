@@ -19,11 +19,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'file',
         'email',
         'password',
-        'profile_pic',
-        'follower',
-        'following'
     ];
 
     /**
@@ -33,5 +31,26 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'remember_token',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
