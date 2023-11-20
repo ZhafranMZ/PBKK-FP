@@ -14,16 +14,14 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        for ($i=1; $i <= 50 ; $i++) {
+        // for ($i=1; $i <= 50 ; $i++) {
             $user = [
-                'name' => 'TestUser'.$i,
-                'email' => 'TestUser' . $i . '@gmail.com',
-                'profile_pic' => 'https://i.pravatar.cc/160?img=' . $i,
-                'password' => 'TestUser'.$i,
-                'follower' => $i,
-                'following' => $i,
+                'name' => 'test',
+                'email' => 'test@gmail.com',
+                'file' => 'https://i.pravatar.cc/160?img=1',
+                'password' => 'test1234',
             ];
             DB::table('users')->insert($user);
-        }
+        // }
     }
 }

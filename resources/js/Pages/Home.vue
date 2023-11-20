@@ -3,6 +3,7 @@
     import { Head, Link, router } from '@inertiajs/vue3';
     import Layout from '@/Layouts/Layout.vue'
     import InteractionSection from '@/Components/InteractionSection.vue'
+    import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
     import 'vue3-carousel/dist/carousel.css'
     import { Carousel, Slide, Navigation } from 'vue3-carousel'
 
@@ -89,11 +90,11 @@
     <Head title="Home" />
     <Layout>
         <div class="mx-auto lg:pl-0 md:pl-[80px] pl-0">
-            <!-- <Carousel
+            <Carousel
                 v-model="currentSlide"
                 class="max-w-[700px] mx-auto"
-                :items-to-show="wWidth >= 768 ? 8 : 6"
-                :items-to-scroll="4"
+                :items-to-show="1"
+                :items-to-scroll="1"
                 :wrap-around="true"
                 :transition="500"
                 snapAlign="start"
@@ -107,14 +108,14 @@
                         <div class="text-xs mt-2 w-[60px] truncate text-ellipsis overflow-hidden">{{ slide.name }}</div>
                     </Link>
                 </Slide>
-
+                
                 <template #addons>
                     <Navigation />
-                </template>
-            </Carousel> -->
+                </template>                
+            </Carousel>
 
-            <!-- <div id="Posts" class="px-4 max-w-[600px] mx-auto mt-10" v-for="post in posts.data" :key="post"> -->
-                <!-- <div class="flex items-center justify-between py-2">
+            <div id="Posts" class="px-4 max-w-[600px] mx-auto mt-10" v-for="post in posts.data" :key="post">
+                <div class="flex items-center justify-between py-2">
                     <div class="flex items-center">
                         <Link :href="route('users.show', { id: post.user.id })" class="flex items-center">
                             <img class="rounded-full w-[38px] h-[38px]" :src="post.user.file">
@@ -127,37 +128,44 @@
                     </div>
 
                     <DotsHorizontal class="cursor-pointer" :size="27"/>
-                </div> -->
+                </div>
 
-                <!-- <div class="bg-black rounded-lg w-full min-h-[400px] flex items-center">
+                <div class="bg-black rounded-lg w-full min-h-[400px] flex items-center">
                     <img class="mx-auto w-full" :src="post.file" />
-                </div> -->
+                </div>
 
                 <InteractionSection
-                   
+                    :post="post"
+                    @like="updateLike($event)"
                 />
-                <!-- Intercaction prop -->
-                <!-- :post="post"
-                    @like="updateLike($event)" -->
-                <!-- End region -->
 
-                <!-- <div class="text-black font-extrabold py-1">{{ post.likes.length }} likes</div>
+                <div class="text-black font-extrabold py-1">{{ post.likes.length }} likes</div>
                 <div>
                     <span class="text-black font-extrabold">{{ post.user.name }}</span>
                     {{ post.text }}
-                </div> -->
-                <!-- <button
+                </div>
+                <button
                     @click="currentPost = post; openOverlay = true"
                     class="text-gray-500 font-extrabold py-1"
                 >
                     View all {{ post.comments.length }} comments
-                </button> -->
-            <!-- </div> -->
+                </button>
+            </div>
 
             <div class="pb-20"></div>
         </div>
     </Layout>
 
+    <PostDetailOverlay
+        v-if="openOverlay"
+        :post="currentPost"
+        @addComment="addComment($event)"
+        @updateLike="updateLike($event)"
+        @deleteSelected="
+            deleteFunc($event);
+        "
+        @closeOverlay="openOverlay = false"
+    />
 
 </template>
 

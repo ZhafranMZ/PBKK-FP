@@ -15,7 +15,7 @@ import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue
 const props = defineProps({ iconString: String});
 const { iconString } = toRefs(props)
 
-// const user = usePage().props.auth.user
+const user = usePage().props.auth.user
 
 let icon = null
 

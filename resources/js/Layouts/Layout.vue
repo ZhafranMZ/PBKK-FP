@@ -57,7 +57,7 @@ let showCreatePost = ref(false)
                 <ChevronLeft :size="30" class="cursor-pointer"/>
             </Link>
             <div>This is other page</div>
-            <!-- <div class="font-extrabold text-lg">{{ $page.props.auth.user.name }}</div> -->
+            <div class="font-extrabold text-lg">{{ $page.props.auth.user.name }}</div>
             <AccountPlusOutline :size="30" class="cursor-pointer px-4"/>
         </div>
 
@@ -77,9 +77,9 @@ let showCreatePost = ref(false)
                     <MenuItem iconString="Messages" class="mb-4"/>
                     <MenuItem iconString="Notifications" class="mb-4"/>
                     <MenuItem @click="showCreatePost = true" iconString="Create" class="mb-4"/>
-                <!-- <Link :href="route('users.show', { id: $page.props.auth.user.id })">
+                <Link :href="route('users.show', { id: $page.props.auth.user.id })">
                     <MenuItem iconString="Profile" class="mb-4"/>
-                </Link> -->
+                </Link>
             </div>
         </div>
 
@@ -94,7 +94,7 @@ let showCreatePost = ref(false)
             </div>
 
             <div v-if="$page.url === '/'" id="SuggestionsSection" class="lg:w-4/12 lg:block hidden text-black mt-10">
-                <!-- <Link :href="route('users.show', { id: $page.props.auth.user.id })" class="flex items-center justify-between max-w-[300px]">
+                <Link :href="route('users.show', { id: $page.props.auth.user.id })" class="flex items-center justify-between max-w-[300px]">
                     <div class="flex items-center">
                         <img class="rounded-full z-10 w-[58px] h-[58px]" :src="$page.props.auth.user.file">
                         <div class="pl-4">
@@ -105,7 +105,7 @@ let showCreatePost = ref(false)
                     <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
                         Switch
                     </button>
-                </Link> -->
+                </Link>
 
                 <div class="max-w-[300px] flex items-center justify-between py-3">
                     <div class="text-gray-500 font-extrabold">Suggestions for you</div>
@@ -115,7 +115,7 @@ let showCreatePost = ref(false)
                 </div>
 
                 <div v-for="randUser in $page.props.randomUsers" :key="randUser">
-                    <!-- <Link :href="route('users.show', { id: randUser.id })" class="flex items-center justify-between max-w-[300px] pb-2">
+                    <Link :href="route('users.show', { id: randUser.id })" class="flex items-center justify-between max-w-[300px] pb-2">
                         <div class="flex items-center">
                             <img class="rounded-full z-10 w-[37px] h-[37px]" :src="randUser.file">
                             <div class="pl-4">
@@ -126,7 +126,7 @@ let showCreatePost = ref(false)
                         <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
                             Follow
                         </button>
-                    </Link> -->
+                    </Link>
                 </div>
 
                 <div class="max-w-[300px] mt-5">
@@ -137,7 +137,7 @@ let showCreatePost = ref(false)
         </div>
 
         <div id="BottomNav" class="fixed z-30 bottom-0 w-full md:hidden flex items-center justify-around bg-white border-t py-2 border-t-gray-300">
-            <!-- <Link href="/">
+            <Link href="/">
                 <HomeOutline fillColor="#000000" :size="33" class="cursor-pointer" />
             </Link>
             <Compass fillColor="#000000" :size="33" class="cursor-pointer" />
@@ -149,7 +149,7 @@ let showCreatePost = ref(false)
                     class="rounded-full w-[30px] cursor-pointer"
                     :src="$page.props.auth.user.file"
                 >
-            </Link>  -->
+            </Link> 
         </div> 
     </div>
     <PostOverlay v-if="showCreatePost" @close="showCreatePost = false" />    

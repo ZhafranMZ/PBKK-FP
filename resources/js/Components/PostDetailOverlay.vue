@@ -3,7 +3,7 @@ import { ref, toRefs } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 import PostOptions from '@/Components/PostOptions.vue'
-import LikesSection from '@/Components/LikesSection.vue'
+import InteractionSection from '@/Components/InteractionSection.vue'
 
 import Close from 'vue-material-design-icons/Close.vue';
 import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue';
@@ -105,14 +105,14 @@ const textareaInput = (e) => {
                             </div>
 
                             <div class="text-[13px] pl-[55px]">
-                                {{ comment.text }}
+                                {{ comment.comment }}
                             </div>
                         </div>
 
                         <div class="pb-16 md:hidden"></div>
                     </div>
 
-                    <LikesSection
+                    <InteractionSection
                         v-if="post"
                         class="px-2 border-t mb-2"
                         :post="post"
