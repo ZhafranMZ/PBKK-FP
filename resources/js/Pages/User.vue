@@ -95,22 +95,22 @@ const getUploadedImage = (e) => {
             <div class="flex items-center md:justify-between">
 
                 <label for="fileUser">
-                    <!-- <img
+                    <img
                         class="rounded-full object-fit md:w-[200px] w-[100px] cursor-pointer"
                         :src="user.file"
-                    > -->
+                    >
                 </label>
-                <!-- <input
+                <input
                     v-if="user.id === $page.props.auth.user.id"
                     id="fileUser"
                     class="hidden"
                     type="file"
                     @input="getUploadedImage($event)"
-                > -->
+                >
 
                 <div class="ml-6 w-full">
                     <div class="flex items-center md:mb-8 mb-5">
-                        <!-- <div class="md:mr-6 mr-3 rounded-lg text-[22px]">{{ user.name }}</div> -->
+                        <div class="md:mr-6 mr-3 rounded-lg text-[22px]">{{ user.name }}</div>
                         <button class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
                             Edit Profile
                         </button>
@@ -122,7 +122,7 @@ const getUploadedImage = (e) => {
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <div class="mr-6">
-                                <!-- <span class="font-extrabold">{{ postsByUser.data.length }}</span>  posts -->
+                                <span class="font-extrabold">{{ postsByUser.data.length }}</span>  posts
                             </div>
                             <div class="mr-6">
                                 <span class="font-extrabold">123</span>  followers
@@ -140,7 +140,7 @@ const getUploadedImage = (e) => {
         <div class="md:hidden">
             <div class="w-full flex items-center justify-around border-t border-t-gray-300 mt-8">
                 <div class="text-center p-3">
-                    <!-- <div class="font-extrabold">{{ postsByUser.data.length }}</div> -->
+                    <div class="font-extrabold">{{ postsByUser.data.length }}</div>
                     <div class="text-gray-400 font-semibold -mt-1.5">posts</div>
                 </div>
                 <div class="text-center p-3">
@@ -192,12 +192,12 @@ const getUploadedImage = (e) => {
             </div>
 
             <div class="grid md:gap-4 gap-1 grid-cols-3 relative">
-                <!-- <div v-for="postByUser in postsByUser.data" :key="postByUser">
+                <div v-for="postByUser in postsByUser.data" :key="postByUser">
                     <UserContent
                         :postByUser="postByUser"
                         @selectedPost="data.post = $event"
                     />
-                </div> -->
+                </div>
             </div>
 
             <div class="pb-20"></div>

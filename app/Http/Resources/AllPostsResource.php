@@ -3,16 +3,16 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AllPostsResource extends JsonResource
+class AllPostsResource extends ResourceCollection
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource collection into an array.
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      */
-    public function toArray(Request $request): array
+    public function toArray(Request $request)
     {
         return $this->collection->map(function ($post) {
             return [
@@ -23,7 +23,7 @@ class AllPostsResource extends JsonResource
                 'comments' => $post->comments->map(function ($comment) {
                     return [
                         'id' => $comment->id,
-                        'text' => $comment->text,
+                        'comment' => $comment->comment,
                         'user' => [
                             'id' => $comment->user->id,
                             'name' => $comment->user->name,
@@ -44,6 +44,6 @@ class AllPostsResource extends JsonResource
                     'file' => $post->user->file
                 ]
             ];
-        });
+        })->all();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -21,12 +21,12 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
-Route::get('/user', function () {
-    return Inertia::render('User');
-});
+// Route::get('/', function () {
+//     return Inertia::render('Home');
+// });
+// Route::get('/user', function () {
+//     return Inertia::render('User');
+// });
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
@@ -34,7 +34,7 @@ Route::get('/user', function () {
 
 Route::middleware('auth')->group(function () {
     
-    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    Route::get('/', [FeedController::class, 'index'])->name('home.index');
 
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'update'])->name('users.update');

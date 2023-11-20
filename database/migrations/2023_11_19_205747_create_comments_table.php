@@ -28,7 +28,7 @@ return new class extends Migration
                 ->on('posts')
                 ->onDelete('cascade');
 
-            $table->text('text');
+            $table->text('comment');
 
             $table->timestamps();
         });
