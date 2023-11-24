@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Story>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Feed>
  */
-class StoryFactory extends Factory
+class PostFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,9 @@ class StoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence,
-            'like' => fake()->numberBetween(10, 1000),
+            'user_id' => \App\Models\User::factory(),
+            'text' =>  fake()->paragraph,
+            'file' => fake()->imageUrl(640, 480, 'post', true),
         ];
     }
 }
