@@ -27,7 +27,7 @@
     const createPostFunc = () => {
         error.value.text = null
         error.value.file = null
-
+        console.log(form);
         router.post('/posts', form, {
             forceFormData: true,
             preserveScroll: true,
@@ -69,7 +69,7 @@
 </script>
 
 <template>
-    <div id="OverlaySection" class="fixed z-50 top-0 left-0 w-full h-screen bg-[#000000] bg-opacity-60 p-3">
+    <div id="PostOverlay" class="fixed z-50 top-0 left-0 w-full h-screen bg-[#000000] bg-opacity-60 p-3">
 
         <button class="absolute right-3 cursor-pointer" @click="closeOverlay()">
             <Close :size="27" fillColor="#FFFFFF"/>

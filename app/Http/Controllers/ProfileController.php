@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -10,9 +10,26 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\FileManageService;
 
 class ProfileController extends Controller
 {
+    
+    public function updatePhoto(Request $request, $id) 
+    {
+        // dd($request);
+        $user = User::find($id);
+        $request->validate([
+             'file' => 'required|mimes:jpg,jpeg,png', 
+        ]);
+        // dd($request);
+        $user = (new FileManageService)->updateFile($user, $request, 'user');
+        // dd($user);
+        $user->save();
+
+        return redirect()->route('profile.edit',[$request]);
+    }
+
     /**
      * Display the user's profile form.
      */
