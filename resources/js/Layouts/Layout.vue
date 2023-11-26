@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { router, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 
 import Magnify from 'vue-material-design-icons/Magnify.vue';
@@ -14,6 +15,10 @@ import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue
 
 import MenuItem from '@/Components/MenuItem.vue'
 import PostOverlay from '@/Components/PostOverlay.vue';
+
+const logout = async () => {
+        router.post('/logout')
+    }
 
 let showCreatePost = ref(false)
 </script>
@@ -80,6 +85,10 @@ let showCreatePost = ref(false)
                 <Link :href="route('users.show', { id: $page.props.auth.user.id })">
                     <MenuItem iconString="Profile" class="mb-4"/>
                 </Link>
+                <Link :href="route('logout')" method="post">
+                    <MenuItem iconString="Log out" class="mb-4 bg-red-400 " />
+                </Link>
+                
             </div>
         </div>
 

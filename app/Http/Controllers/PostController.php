@@ -30,6 +30,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $post = new Post;
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png',

@@ -2,6 +2,7 @@
 import { usePage } from '@inertiajs/vue3';
 import { toRefs } from 'vue';
 
+import Menu from 'vue-material-design-icons/Menu.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue';
 import HeartOutline from 'vue-material-design-icons/HeartOutline.vue';
 import HomeOutline from 'vue-material-design-icons/HomeOutline.vue';

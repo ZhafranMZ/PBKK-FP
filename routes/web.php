@@ -48,6 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/likes', [LikeController::class, 'store'])->name('likes.store');
     Route::delete('/likes/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
     
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/profile/{id}', [ProfileController::class, 'updatePhoto'])->name('profile.update_photo');
+
 });
+
 
 require __DIR__.'/auth.php';
