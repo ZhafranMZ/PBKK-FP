@@ -21,7 +21,7 @@ class FileManageService
         if ($type === "user") {
             $file = Image::make($request->file('file'))->resize(400, 400);
         } else {
-            $file = Image::make($request->file('file'));
+            $file = Image::make($request->file('file'))->resize(1080, 1080);
         }
         $ext = $request->file('file');
         $extension = $ext->getClientOriginalExtension();

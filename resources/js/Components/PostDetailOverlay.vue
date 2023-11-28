@@ -1,4 +1,5 @@
 <script setup>
+
 import { ref, toRefs } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
@@ -10,15 +11,18 @@ import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue';
 import EmoticonHappyOutline from 'vue-material-design-icons/EmoticonHappyOutline.vue';
 
 let comment = ref('')
-let deleteType = ref(null)
+let editId = ref(0)
+let type = ref(null)
 let id = ref(null)
+let edit = ref('')
+let editContent = ref('')
 
 const user = usePage().props.auth.user
 
 const props = defineProps(['post'])
 const { post } = toRefs(props)
 
-defineEmits(['closeOverlay', 'addComment', 'updateLike', 'deleteSelected'])
+defineEmits(['closeOverlay', 'addComment', 'updateLike', 'deleteSelected', 'updateSelected', 'edit'])
 
 const textareaInput = (e) => {
     textarea.value.style.height = "auto";
@@ -54,7 +58,7 @@ const textareaInput = (e) => {
                         </div>
                         <button
                             v-if="user.id === post.user.id"
-                            @click="deleteType = 'Post'; id = post.id"
+                            @click="type = 'Post'; editId = post.id; id = post.id;"
                         >
                             <DotsHorizontal class="cursor-pointer" :size="27" />
                         </button>
@@ -71,9 +75,38 @@ const textareaInput = (e) => {
                                     <span class="font-extrabold text-[15px] mr-2">
                                         {{ post.user.name }}
                                     </span>
-                                    <span class="text-[15px] text-gray-900">
+                                    <span v-show="edit !== 'Post'" class="text-[15px] text-gray-900">
                                         {{ post.text }}
                                     </span>
+                                    <div class=" flex items-center">
+                                    <textarea v-show="edit === 'Post' && editId === post.id" v-model="post.text" 
+                                    class="max-w-[80%]  
+                                        border-0
+                                        mt-2
+                                        mb-2
+                                        text-sm
+                                        z-50
+                                        focus:ring-0
+                                        text-gray-600
+                                        text-[18px]"
+                                        rows="1" cols="55"
+                                    >{{ post.text }}</textarea>
+                                    <button
+                                        v-show="edit === 'Post' && editId === post.id"
+                                        class="min-w-[20%] text-blue-600 font-extrabold pr-4"
+                                        @click="
+                                        editContent=post.text;
+                                        type='Post'
+                                        id=post.id; 
+                                        $emit('updateSelected', {editContent, type, id, post});
+                                        editContent= '';
+                                        type='';
+                                        edit='';
+                                        editId=''"
+                                    >
+                                        Edit
+                                    </button>
+                            </div>
                                 </div>
                             </div>
                         </div>
@@ -90,23 +123,54 @@ const textareaInput = (e) => {
                                         class="rounded-full w-[38px] h-[38px]"
                                         :src="comment.user.file"
                                     >
-                                    <div class="ml-4 font-extrabold text-[15px]">
+                                    <div class="ml-4 font-extrabold text-base">
                                         {{ comment.user.name }}
-                                        <span class="font-light text-gray-700 text-sm">{{ post.created_at }}</span>
+                                        <span class="font-light text-gray-700 text-xs">{{ post.created_at }}</span>
                                     </div>
                                 </div>
 
                                 <DotsHorizontal
-                                    v-if="user.id === comment.user.id"
+                                    v-if="user.id === comment.user.id && !edit || !edit === 'Comment' && editId !== comment.id"
                                     class="cursor-pointer"
-                                    @click="deleteType = 'Comment'; id = comment.id"
+                                    @click="editId=comment.id; editContent=comment.comment; type = 'Comment'; id = comment.id"
                                     :size="27"
                                 />
                             </div>
 
-                            <div class="text-[13px] pl-[55px]">
+                            <div v-if="editId !== comment.id || edit !== 'Comment'" class="text-sm pl-[55px]">
                                 {{ comment.comment }}
                             </div>
+                            
+                            <div class=" flex items-center">
+                                <textarea v-show="edit === 'Comment' && editId === comment.id" v-model="comment.comment" 
+                                class="max-w-[80%] 
+                                    border-0
+                                    mt-2
+                                    mb-2
+                                    text-sm
+                                    z-50
+                                    focus:ring-0
+                                    text-gray-600
+                                    text-[18px]"
+                                    rows="1" cols="55"
+                                >{{ comment.comment }}</textarea>
+                                <button
+                                    v-show="edit === 'Comment' && editId === comment.id"
+                                    class="min-w-[20%] text-blue-600 font-extrabold pr-4"
+                                    @click="
+                                    editContent=comment.comment;
+                                    type='Comment'
+                                    id=comment.id; 
+                                    $emit('updateSelected', {editContent, type, id, post});
+                                    editContent= '';
+                                    type='';
+                                    edit='';
+                                    editId=''"
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                            
                         </div>
 
                         <div class="pb-16 md:hidden"></div>
@@ -156,18 +220,26 @@ const textareaInput = (e) => {
     </div>
 
     <PostOptions
-        v-if="deleteType"
-        :deleteType="deleteType"
+        v-if="type"
+        :type="type"
         :id="id"
+        :editContent="editContent"
+        :userId="user.id"
+        :post="post"
         @deleteSelected="
             $emit('deleteSelected', {
-                deleteType: $event.deleteType,
+                type: $event.type,
                 id: $event.id,
                 post: post,
             })
-            deleteType = null;
+            type = null;
             id = null;
         "
-        @close="deleteType = null; id = null"
+        @edit="
+            edit = $event.type,
+            comment = $event.editContent
+        "
+
+        @close="type = null; id = null"
     />
 </template>

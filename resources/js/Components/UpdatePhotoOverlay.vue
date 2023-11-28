@@ -67,7 +67,7 @@
         </button>
 
         <div class="max-w-6xl h-[calc(100%-100px)] mx-auto mt-10 bg-white rounded-xl">
-            <div class="flex items-center bg-gray-100 w-full h-full overflow-hidden">
+            <div class="flex items-center bg-gray-100 w-full h-full overflow-hidden rounded-l-xl rounded-t-xl">
                 <div v-if="!fileDisplay" class="flex flex-col items-center mx-auto rounded-xl">
                     <label
                         for="file"
@@ -90,7 +90,7 @@
             </div>
             <div class="w-full flex flex-row justify-end">
                 <!-- <button :disabled="form.processing">Save</button> -->
-                <button @click="submit()" class=" rounded-b-xl px-6 py-4 bg-white text-lg text-blue-500 hover:text-gray-900 font-extrabold">
+                <button @click="submit()" class=" rounded-b-xl px-6 py-2 bg-gray-100 text-lg text-blue-500 hover:text-gray-900 font-extrabold">
                     Update
                 </button>
             </div>

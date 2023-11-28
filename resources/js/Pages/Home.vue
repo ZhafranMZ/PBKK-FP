@@ -1,6 +1,7 @@
 <script setup>
     import { ref, onMounted, toRefs } from 'vue'
-    import { Head, Link, router } from '@inertiajs/vue3';
+    import { Head, Link, router } from '@inertiajs/vue3'
+    import { useRouter } from 'vue-router'
     import Layout from '@/Layouts/Layout.vue'
     import InteractionSection from '@/Components/InteractionSection.vue'
     import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
@@ -36,7 +37,8 @@
 
     const deleteFunc = (object) => {
         let url = ''
-        if (object.deleteType === 'Post') {
+        console.log(object);
+        if (object.type === 'Post') {
             url = '/posts/' + object.id
         } else {
             url = '/comments/' + object.id
@@ -46,7 +48,49 @@
             onFinish: () => updatedPost(object),
         })
 
-        if (object.deleteType === 'Post') {
+        if (object.type === 'Post') {
+            openOverlay.value = false
+        }
+    }
+
+//     {
+//     method: 'PATCH',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ name: 'Vue 3 PATCH Request Example' })
+// }
+    const updateFunc = (object) => {
+        console.log("update");
+        console.log(object);
+        let url = ''
+        if (object.type === 'Post') {
+            url = '/posts/' + object.id
+        } else {
+            url = '/comments/' + object.id
+        }
+        console.log(object);
+        if (object.type === 'Comment'){
+            console.log(url);
+            router.patch(url, {
+                // method: 'post',
+                // forceFormData: true,
+                // headers: { 'Content-Type': 'multipart/form-data' },
+                // data: {
+                comment: object.editContent
+            }, {
+            onError:() => alert(response.message),
+            onFinish: () => updatedPost(object),
+         })
+        }else {
+            router.patch(url, {
+                text: object.editContent
+            }, {
+                onError:() => alert(response.message),
+                onFinish: () => updatedPost(object),
+            })
+        }
+        
+
+        if (object.type === 'Post') {
             openOverlay.value = false
         }
     }
@@ -79,6 +123,7 @@
     const updatedPost = (object) => {
         for (let i = 0; i < posts.value.data.length; i++) {
             const post = posts.value.data[i];
+            console.log(post);
             if (post.id === object.post.id) {
                 currentPost.value = post
             }
@@ -162,8 +207,9 @@
         @addComment="addComment($event)"
         @updateLike="updateLike($event)"
         @deleteSelected="
-            deleteFunc($event);
+            deleteFunc($event)
         "
+        @updateSelected = "updateFunc($event)"
         @closeOverlay="openOverlay = false"
     />
 
