@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatMade;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\LikeController;
@@ -55,7 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/profile/{id}', [ProfileController::class, 'updatePhoto'])->name('profile.update_photo');
-
+    Route::get('/hello', function(){
+        event(new ChatMade('hello world'));
+    });
 });
 
 
