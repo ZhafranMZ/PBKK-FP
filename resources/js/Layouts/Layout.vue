@@ -16,9 +16,6 @@ import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue
 import MenuItem from '@/Components/MenuItem.vue'
 import PostOverlay from '@/Components/PostOverlay.vue';
 
-const logout = async () => {
-        router.post('/logout')
-    }
 
 let showCreatePost = ref(false)
 </script>
@@ -61,7 +58,6 @@ let showCreatePost = ref(false)
             <Link href="/" class="px-4">
                 <ChevronLeft :size="30" class="cursor-pointer"/>
             </Link>
-            <div>This is other page</div>
             <div class="font-extrabold text-lg">{{ $page.props.auth.user.name }}</div>
             <AccountPlusOutline :size="30" class="cursor-pointer px-4"/>
         </div>

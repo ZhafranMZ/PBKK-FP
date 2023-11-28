@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, toRefs } from 'vue'
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
 import Layout from '@/Layouts/Layout.vue';
 import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
@@ -69,6 +69,43 @@ const updateLike = (object) => {
     }
 }
 
+const updateFunc = (object) => {
+        console.log("update");
+        console.log(object);
+        let url = ''
+        if (object.type === 'Post') {
+            url = '/posts/' + object.id
+        } else {
+            url = '/comments/' + object.id
+        }
+
+        if (object.type === 'Comment'){
+            console.log(url);
+            router.patch(url, {
+                // method: 'post',
+                // forceFormData: true,
+                // headers: { 'Content-Type': 'multipart/form-data' },
+                // data: {
+                comment: object.editContent
+            }, {
+                onError:() => alert(response.message),
+                onFinish: () => updatedPost(object),
+            })
+        }else {
+            router.patch(url, {
+                comment: object.editContent
+            }, {
+                onError:() => alert(response.message),
+                onFinish: () => updatedPost(object),
+            })
+        }
+        
+
+        if (object.type === 'Post') {
+            openOverlay.value = false
+        }
+    }
+
 const updatedPost = (object) => {
     for (let i = 0; i < postsByUser.value.data.length; i++) {
         const post = postsByUser.value.data[i];
@@ -109,16 +146,16 @@ const getUploadedImage = (e) => {
                 >
 
                 <div class="ml-6 w-full">
-                    <div class="flex items-center md:mb-8 mb-5">
-                        <div class="md:mr-6 mr-3 rounded-lg text-[22px]">{{ user.name }}</div>
-                        <Link :href="route('profile.edit')" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                    <div  class="flex items-center md:mb-8 mb-5">
+                        <div class="md:mr-6 mr-3 rounded-lg text-[22px] font-semibold">{{ user.name }}</div>
+                        <Link v-if="$page.props.auth.user.id === user.id" :href="route('profile.edit')" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
                             Edit Profile
                         </Link>
-                        <Cog :size="28" class="cursor-pointer"/>
+                        <!-- <Cog :size="28" class="cursor-pointer"/> -->
                     </div>
-                    <button class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                    <Link v-if="$page.props.auth.user.id === user.id" :href="route('profile.edit')" class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
                         Edit Profile
-                    </button>
+                    </Link>
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <div class="mr-6">
@@ -212,6 +249,7 @@ const getUploadedImage = (e) => {
         @deleteSelected="
             deleteFunc($event);
         "
+        @updateSelected = "updateFunc($event)"
         @closeOverlay="data.post = null"
     />
 </template>

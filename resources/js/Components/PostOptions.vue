@@ -1,10 +1,11 @@
 <script setup>
 import { toRefs } from 'vue'
 
-defineEmits(['close', 'deleteSelected'])
-const props = defineProps({ deleteType: String, id: Number })
+defineEmits(['close', 'deleteSelected', 'edit'])
+// const proppost = defineProps(['post'])
+const props = defineProps({ editContent:{type:String, default:''}, type: String, id: Number, userId: String }, ['post'])
 
-const { deleteType, id } = toRefs(props)
+const { editContent, type, id } = toRefs(props)
 </script>
 
 <template>
@@ -14,12 +15,40 @@ const { deleteType, id } = toRefs(props)
     >
         <div class="max-w-sm w-full mx-auto mt-10 bg-white rounded-xl text-center">
             <button
-                @click="$emit('deleteSelected', { deleteType, id });"
+                @click="$emit('deleteSelected', { type, id });"
                 class="font-extrabold w-full text-red-600 p-3 text-lg border-b border-b-gray-300 cursor-pointer"
             >
-                Delete {{ deleteType }}
+                Delete {{ type }}
+            </button>
+            <button
+                v-if="post.user.id === user.id"
+                @click="$emit('edit', {type, editContent}); $emit('close')"
+                class="font-extrabold w-full p-3 text-lg border-b border-b-gray-300 cursor-pointer"
+            >
+                Edit 
             </button>
             <div class="p-3 text-lg cursor-pointer" @click="$emit('close')">Cancel</div>
         </div>
     </div>
 </template>
+<!-- <script setup>
+    import { router, useForm, usePage } from '@inertiajs/vue3';
+    import { ref, reactive, defineEmits } from 'vue';
+    import { Inertia } from '@inertiajs/inertia-vue3';
+
+    import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+    import Close from 'vue-material-design-icons/Close.vue';
+
+    // Get the authenticated user from the page props
+    const user = usePage().props.auth.user
+
+    // Define the emitted events
+    const emit = defineEmits(['close'])
+
+    // Create a reactive form object with a file property
+    const form = ref({
+        file: null,
+    })
+
+    // Create reactive -->

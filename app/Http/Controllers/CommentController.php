@@ -61,9 +61,20 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        // dd($request);
+        $comment = Comment::find($id);
+        $request->validate([
+            'comment' => 'required'
+        ]);
+
+        if (!$comment){
+            return response()->json(['message' => 'Comment not found'], 404);
+        }
+
+        $comment->comment = $request->input('comment');
+        $comment->save();
     }
 
     /**
@@ -71,6 +82,7 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
+        // dd($id);
         $comment = Comment::find($id);
         if ($comment) {
             $comment->delete();

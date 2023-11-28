@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $post = new Post;
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png',
@@ -62,9 +62,18 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $request->validate([
+            'text' => 'required'
+        ]);
+        if (!$post){
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+
+        $post->text = $request->input('text');
+        $post->save();
     }
 
     /**
