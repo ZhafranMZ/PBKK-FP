@@ -16,8 +16,8 @@ import AccountBoxOutline from 'vue-material-design-icons/AccountBoxOutline.vue';
 let data = reactive({ post: null })
 const form = reactive({ file: null })
 
-const props = defineProps({ postsByUser: Object, user: Object })
-const { postsByUser, user } = toRefs(props)
+const props = defineProps({ postsByUser: Object, user: Object, follow: Boolean })
+const { postsByUser, user, follow } = toRefs(props)
 
 const addComment = (object) => {
     router.post('/comments', {
@@ -121,6 +121,24 @@ const getUploadedImage = (e) => {
         preserveState: false
     })
 }
+
+const toFollow = (id) => {
+    console.log(id);
+    router.post('/follow/' + id, {
+        onSuccess: () => {
+                location.reload();
+            }
+    });
+}
+
+const toUnfollow = (id) => {
+    router.delete('/follow/' + id, {
+        onSuccess: () => {
+                location.reload();
+            }
+    });
+}
+
 </script>
 
 <template>
@@ -149,13 +167,24 @@ const getUploadedImage = (e) => {
                     <div  class="flex items-center md:mb-8 mb-5">
                         <div class="md:mr-6 mr-3 rounded-lg text-[22px] font-semibold">{{ user.name }}</div>
                         <Link v-if="$page.props.auth.user.id === user.id" :href="route('profile.edit')" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
-                            Edit Profile
+                            Edit Profile 
                         </Link>
-                        <!-- <Cog :size="28" class="cursor-pointer"/> -->
+                        <button v-if="$page.props.auth.user.id !== user.id && follow === false" @click="toFollow(user.id)" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] text-white font-extrabold bg-blue-600 hover:bg-blue-700">
+                            Follow
+                        </button>
+                        <button v-if="$page.props.auth.user.id !== user.id && follow === true" @click="toUnfollow(user.id)" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                            Following
+                        </button>
                     </div>
                     <Link v-if="$page.props.auth.user.id === user.id" :href="route('profile.edit')" class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
                         Edit Profile
                     </Link>
+                    <button v-if="$page.props.auth.user.id !== user.id && follow === false" @click="toFollow(user.id)" class="md:hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] text-white font-extrabold bg-blue-600 hover:bg-blue-700">
+                        Follow
+                    </button>
+                    <button v-if="$page.props.auth.user.id !== user.id && follow === true" @click="toUnfollow(user.id)" class="md:hidden md:mr-6 p-1 px-4 rounded-lg text-[16px]font-extrabold bg-gray-100 hover:bg-gray-200">
+                        Following
+                    </button>
                     <div class="md:block hidden">
                         <div class="flex items-center text-[18px]">
                             <div class="mr-6">

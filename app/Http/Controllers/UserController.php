@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AllPostsResource;
-use Brick\Math\BigInteger;
 use App\Models\User;
 use App\Models\Post;
 use App\Services\FileManageService;
@@ -26,10 +26,12 @@ class UserController extends Controller
         if ($user === null) { return redirect()->route('home.index'); }
 
         $posts = Post::where('user_id', $id)->orderBy('created_at')->get();
+        $follow = DB::table('followers')->where('follower_id', auth()->user()->id)->where('following_id', $id)->exists();
 
         return Inertia::render('User', [
             'user' => $user,
-            'postsByUser' => new AllPostsResource($posts)
+            'postsByUser' => new AllPostsResource($posts),
+            'follow' => $follow,
         ]);
     }
 

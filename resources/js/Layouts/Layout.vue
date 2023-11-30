@@ -14,10 +14,11 @@ import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
 import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue';
 
 import MenuItem from '@/Components/MenuItem.vue'
-import PostOverlay from '@/Components/PostOverlay.vue';
-
+import PostOverlay from '@/Components/PostOverlay.vue'
+import FollowSection from '@/Components/FollowSection.vue'
 
 let showCreatePost = ref(false)
+
 </script>
 
 <template>
@@ -107,9 +108,9 @@ let showCreatePost = ref(false)
                             <div class="text-gray-500 text-extrabold text-sm">{{ $page.props.auth.user.name }}</div>
                         </div>
                     </div>
-                    <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
+                    <!-- <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
                         Switch
-                    </button>
+                    </button> -->
                 </Link>
 
                 <div class="max-w-[300px] flex items-center justify-between py-3">
@@ -119,8 +120,9 @@ let showCreatePost = ref(false)
                     </button>
                 </div>
 
-                <div v-for="randUser in $page.props.randomUsers" :key="randUser">
-                    <Link :href="route('users.show', { id: randUser.id })" class="flex items-center justify-between max-w-[300px] pb-2">
+                <div v-for="randUser in $page.props.randomUsers" :key="randUser" >
+                    <div v-if="$page.props.auth.user.id !== randUser.id" class="flex justify-between">
+                        <Link :href="route('users.show', { id: randUser.id })" class="flex items-center justify-between max-w-[300px] pb-2">
                         <div class="flex items-center">
                             <img class="rounded-full z-10 w-[37px] h-[37px]" :src="randUser.file">
                             <div class="pl-4">
@@ -128,10 +130,14 @@ let showCreatePost = ref(false)
                                 <div class="text-gray-500 text-extrabold text-sm">Suggested for you</div>
                             </div>
                         </div>
-                        <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
-                            Follow
-                        </button>
-                    </Link>
+                            <!-- <p>{{ randUser.id }}</p> -->
+                            <!-- <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
+                                Follow
+                            </button> -->
+                        </Link>
+                        <FollowSection :user_id = "randUser.id"/>
+                    </div>
+                    
                 </div>
 
                 <div class="max-w-[300px] mt-5">
