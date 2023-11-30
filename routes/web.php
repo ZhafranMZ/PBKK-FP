@@ -3,6 +3,7 @@
 use App\Events\ChatMade;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\FollowerController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +24,6 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return Inertia::render('Home');
-// });
-// Route::get('/user', function () {
-//     return Inertia::render('User');
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     
@@ -59,6 +51,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/hello', function(){
         event(new ChatMade('hello world'));
     });
+
+    Route::get('/follow/{id}', [FollowerController::class, 'index'])->name('follow.index');
+    Route::post('/follow/{id}', [FollowerController::class, 'store'])->name('follow.store');
+    Route::delete('/follow/{id}', [FollowerController::class, 'destroy'])->name('follow.destroy');
+
+
+    Route::get('/try', function(){
+        $user = User::find(2);
+        $follow_who = User::find(1);
+        $user->follow()->detach($follow_who);
+    }
+
+);
 });
 
 
