@@ -6,7 +6,6 @@ import Layout from '@/Layouts/Layout.vue';
 import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
 import UserContent from '@/Components/UserContent.vue'
 
-
 import Cog from 'vue-material-design-icons/Cog.vue';
 import Grid from 'vue-material-design-icons/Grid.vue';
 import PlayBoxOutline from 'vue-material-design-icons/PlayBoxOutline.vue';
@@ -16,8 +15,8 @@ import AccountBoxOutline from 'vue-material-design-icons/AccountBoxOutline.vue';
 let data = reactive({ post: null })
 const form = reactive({ file: null })
 
-const props = defineProps({ postsByUser: Object, user: Object, follow: Boolean })
-const { postsByUser, user, follow } = toRefs(props)
+const props = defineProps({ postsByUser: Object, user: Object, follow: Boolean, follower: Number, following: Number})
+const { postsByUser, user, follow, follower, following } = toRefs(props)
 
 const addComment = (object) => {
     router.post('/comments', {
@@ -191,10 +190,10 @@ const toUnfollow = (id) => {
                                 <span class="font-extrabold">{{ postsByUser.data.length }}</span>  posts
                             </div>
                             <div class="mr-6">
-                                <span class="font-extrabold">123</span>  followers
+                                <span class="font-extrabold">{{ follower }}</span>  followers
                             </div>
                             <div class="mr-6">
-                                <span class="font-extrabold">456</span>  following
+                                <span class="font-extrabold">{{ following }}</span>  following
                             </div>
                         </div>
                     </div>
@@ -210,11 +209,11 @@ const toUnfollow = (id) => {
                     <div class="text-gray-400 font-semibold -mt-1.5">posts</div>
                 </div>
                 <div class="text-center p-3">
-                    <div class="font-extrabold">43</div>
+                    <div class="font-extrabold">{{ follower }}</div>
                     <div class="text-gray-400 font-semibold -mt-1.5">followers</div>
                 </div>
                 <div class="text-center p-3">
-                    <div class="font-extrabold">55</div>
+                    <div class="font-extrabold">{{ following }}</div>
                     <div class="text-gray-400 font-semibold -mt-1.5">following</div>
                 </div>
             </div>
