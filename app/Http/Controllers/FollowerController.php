@@ -55,7 +55,7 @@ class FollowerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // 
     }
 
     /**

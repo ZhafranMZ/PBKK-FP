@@ -27,11 +27,15 @@ class UserController extends Controller
 
         $posts = Post::where('user_id', $id)->orderBy('created_at')->get();
         $follow = DB::table('followers')->where('follower_id', auth()->user()->id)->where('following_id', $id)->exists();
-
+        $follower = DB::table('followers')->where('following_id', $id)->count();
+        $following = DB::table('followers')->where('follower_id', $id)->count();
+        // dd($follower);
         return Inertia::render('User', [
             'user' => $user,
             'postsByUser' => new AllPostsResource($posts),
             'follow' => $follow,
+            'follower' => $follower,
+            'following' => $following,
         ]);
     }
 
