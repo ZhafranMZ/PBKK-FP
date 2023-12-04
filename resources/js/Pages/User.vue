@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, ref } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
 import Layout from '@/Layouts/Layout.vue';
@@ -15,7 +15,6 @@ import AccountBoxOutline from 'vue-material-design-icons/AccountBoxOutline.vue';
 let data = reactive({ post: null })
 const form = reactive({ file: null })
 
-import { ref } from 'vue';
 const activeSection = ref('Post');
 
 const props = defineProps({ postsByUser: Object, user: Object, savedsByUser: Object, follow: Boolean, follower: Number, following: Number})
@@ -277,17 +276,9 @@ const toUnfollow = (id) => {
                         <Grid :size="15" :fillColor="activeSection === 'Post' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
                         <div class="ml-2 -mb-[1px] text-gray-900">POSTS</div>
                     </div>
-                    <div class="p-[17px] w-1/4 flex justify-center items-center">
-                        <PlayBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <div class="ml-2 -mb-[1px] ">REELS</div>
-                    </div>
                     <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Bookmarks')">
                         <BookmarkOutline :size="15" :fillColor="activeSection === 'Bookmarks' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
                         <span class="ml-2 -mb-[1px] ">SAVED</span>
-                    </div>
-                    <div class="p-[17px] w-1/4 flex justify-center items-center">
-                        <AccountBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <span class="ml-2 -mb-[1px]">TAGGED</span>
                     </div>
                 </div>
             </div>
@@ -309,17 +300,9 @@ const toUnfollow = (id) => {
                         <Grid :size="15" :fillColor="activeSection === 'Post' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
                         <div class="ml-2 -mb-[1px]">POSTS</div>
                     </div>
-                    <div class="p-[17px] w-1/4 flex justify-center items-center">
-                        <PlayBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <div class="ml-2 -mb-[1px] ">REELS</div>
-                    </div>
                     <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Bookmarks')">
                         <BookmarkOutline :size="15" :fillColor="activeSection === 'Bookmarks' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
                         <span class="ml-2 -mb-[1px]  text-gray-900">SAVED</span>
-                    </div>
-                    <div class="p-[17px] w-1/4 flex justify-center items-center">
-                        <AccountBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <span class="ml-2 -mb-[1px]">TAGGED</span>
                     </div>
                 </div>
             </div>

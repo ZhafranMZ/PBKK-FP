@@ -5,6 +5,7 @@
     import Layout from '@/Layouts/Layout.vue'
     import InteractionSection from '@/Components/InteractionSection.vue'
     import PostDetailOverlay from '@/Components/PostDetailOverlay.vue'
+    import PostOverlay from '@/Components/PostOverlay.vue'
     import 'vue3-carousel/dist/carousel.css'
     import { Carousel, Slide, Navigation } from 'vue3-carousel'
 
@@ -14,6 +15,7 @@
     let currentSlide = ref(0)
     let currentPost = ref(null)
     let openOverlay = ref(false)
+    let showCreatePost = ref(false)
 
     const props = defineProps({ posts: Object, allUsers: Object })
     const { posts, allUsers } = toRefs(props)
@@ -160,30 +162,12 @@
     <Head title="Home" />
     <Layout>
         <div class="mx-auto lg:pl-0 md:pl-[80px] pl-0">
-            <Carousel
-                v-model="currentSlide"
-                class="max-w-[700px] mx-auto"
-                :items-to-show="1"
-                :items-to-scroll="1"
-                :wrap-around="true"
-                :transition="500"
-                snapAlign="start"
-            >
-                <Slide v-for="slide in allUsers" :key="slide">
-                    <Link :href="route('users.show', { id: slide.id })" class="relative mx-auto text-center mt-4 px-2 cursor-pointer">
-                        <div class="absolute z-[-1] -top-[5px] left-[4px] rounded-full rotate-45 w-[64px] h-[64px] contrast-[1.3]  bg-gradient-to-t from-yellow-300 to-purple-500 via-red-500">
-                            <div class="rounded-full ml-[3px] mt-[3px] w-[58px] h-[58px] bg-white" />
-                        </div>
-                        <img class="rounded-full w-[56px] h-[56px] -mt-[1px]" :src="slide.file">
-                        <div class="text-xs mt-2 w-[60px] truncate text-ellipsis overflow-hidden">{{ slide.name }}</div>
-                    </Link>
-                </Slide>
-                
-                <template #addons>
-                    <Navigation />
-                </template>                
-            </Carousel>
-
+            <div class="w-full flex justify-center relative mt-3">
+                <div class="animate-ping top-[15%] absolute z-0 inline-flex h-3/4 w-1/4 rounded-full bg-sky-800 opacity-75" />
+                <button @click="showCreatePost = true" class=" text-lg z-30 bg-blue-700 rounded-xl py-3 px-10 text-white font-medium">
+                    Ready to <span class=" font-black">ECHO</span> your mind ?
+                </button>
+            </div>
             <div id="Posts" class="px-4 max-w-[600px] mx-auto mt-10" v-for="post in posts.data" :key="post">
                 <div class="flex items-center justify-between py-2">
                     <div class="flex items-center">
@@ -196,8 +180,6 @@
                             <div>{{ post.created_at }}</div>
                         </div>
                     </div>
-
-                    <DotsHorizontal class="cursor-pointer" :size="27"/>
                 </div>
 
                 <div class="bg-black rounded-lg w-full min-h-[400px] flex items-center">
@@ -245,6 +227,8 @@
         @updateSelected = "updateFunc($event)"
         @closeOverlay="openOverlay = false"
     />
+
+    <PostOverlay v-if="showCreatePost" @close="showCreatePost = false" />    
 
 </template>
 

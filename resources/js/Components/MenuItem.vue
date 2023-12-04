@@ -9,6 +9,7 @@ import HomeOutline from 'vue-material-design-icons/HomeOutline.vue';
 import Compass from 'vue-material-design-icons/Compass.vue';
 import SendOutline from 'vue-material-design-icons/SendOutline.vue';
 import Plus from 'vue-material-design-icons/Plus.vue';
+import Exit from 'vue-material-design-icons/ArrowLeft.vue'
 import AccountOutline from 'vue-material-design-icons/AccountOutline.vue';
 import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
 import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue';
@@ -27,7 +28,7 @@ if (iconString.value === 'Messages') icon = SendOutline
 if (iconString.value === 'Notifications') icon = HeartOutline
 if (iconString.value === 'Create') icon = Plus
 if (iconString.value === 'Profile') icon = AccountOutline
-if (iconString.value === 'Log out') icon = Menu
+if (iconString.value === 'Log out') icon = Exit
 
 </script>
 
