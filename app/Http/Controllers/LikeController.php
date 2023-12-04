@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use Brick\Math\BigInteger;
 use Illuminate\Http\Request;
+use App\Jobs\SendMailNotification;
+use App\Models\User;
+use App\Models\Post;
 
 class LikeController extends Controller
 {
@@ -33,8 +36,13 @@ class LikeController extends Controller
         $like = new Like;
 
         $like->user_id = auth()->user()->id;
+        // $user = User::find($like->user_id);
         $like->post_id = $request->input('post_id');
+        $post = Post::find($like->post_id);
+        $user = User::find($post->user_id);
         $like->save();
+        $type = 'Received Like';
+        dispatch(new SendMailNotification($user, $type));
     }
 
     /**

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use Brick\Math\BigInteger;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Post;
+use App\Jobs\SendMailNotification;
 
 class CommentController extends Controller
 {
@@ -40,6 +43,11 @@ class CommentController extends Controller
         $comment->post_id = $request->input('post_id');
         $comment->comment = $request->input('comment');
         $comment->save();
+
+        $post = Post::find($comment->post_id);
+        $user = User::find($post->user_id);
+        $type = 'Received Comment';
+        dispatch(new SendMailNotification($user, $type));
     }
 
     /**

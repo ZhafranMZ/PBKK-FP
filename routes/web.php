@@ -8,10 +8,12 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Jobs\SendMailNotification;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Mail\SendMail;
 
 
 /*
@@ -58,9 +60,13 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/try', function(){
-        $user = User::find(2);
-        $follow_who = User::find(1);
-        $user->follow()->detach($follow_who);
+        // $user=User::find(4);
+        // // $data=$user->email;
+        // // dd($data);
+        // $type='Logged in';
+        // Mail::to($user->email)->send(new SendMail($type));
+
+        // dispatch(new SendMailNotification($user, $type));
     }
 
 );

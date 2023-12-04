@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Mail\SendMail;
+use App\Jobs\SendMailNotification;
 
 class RegisteredUserController extends Controller
 {
@@ -47,7 +49,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        $type='Logged In';
+        dispatch(new SendMailNotification($user, $type));
         return redirect(RouteServiceProvider::HOME);
     }
 

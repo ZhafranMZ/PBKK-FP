@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Jobs\SendMailNotification;
 use App\Models\User;
 
 class FollowerController extends Controller
@@ -40,8 +41,10 @@ class FollowerController extends Controller
     {
         // dd($id);
         $user = auth()->user();
+        $user_followed = User::find($id);
         // $follow_who = User::find($id);
-        
+        $type = 'Got a New Follower';
+        dispatch(new SendMailNotification($user_followed, $type));
         if(DB::table('followers')->where('following_id', $id)->where('follower_id', $user->id)->doesntExist()){
             // dd($user);
             $user->follow()->attach($id);
