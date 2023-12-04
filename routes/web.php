@@ -8,6 +8,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SavedController;
 use App\Jobs\SendMailNotification;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,18 +42,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::patch('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::patch('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
 
     Route::post('/likes', [LikeController::class, 'store'])->name('likes.store');
     Route::delete('/likes/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
     
+    Route::post('/saveds', [SavedController::class, 'store'])->name('saveds.store');
+    Route::delete('/saveds/{id}', [SavedController::class, 'destroy'])->name('saveds.destroy');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/profile/{id}', [ProfileController::class, 'updatePhoto'])->name('profile.update_photo');
-    Route::get('/hello', function(){
-        event(new ChatMade('hello world'));
-    });
 
     Route::get('/follow/{id}', [FollowerController::class, 'index'])->name('follow.index');
     Route::post('/follow/{id}', [FollowerController::class, 'store'])->name('follow.store');

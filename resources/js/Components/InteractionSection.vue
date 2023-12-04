@@ -11,7 +11,7 @@ import BookmarkOutline from 'vue-material-design-icons/BookmarkOutline.vue';
 const props = defineProps(['post'])
 const { post } = toRefs(props)
 
-const emit = defineEmits(['like'])
+const emit = defineEmits(['like', 'saved'])
 
 const user = usePage().props.auth.user
 
@@ -28,9 +28,28 @@ const isHeartActiveComputed = computed(() => {
     return isTrue
 })
 
+const isSavedActiveComputed = computed(() => {
+    let isTrue = false
+
+    for (let i = 0; i < post.value.saveds.length; i++) {
+        const saved = post.value.saveds[i];
+        if (saved.user_id === user.id && saved.post_id === post.value.id) {
+            isTrue = true
+        }
+    }
+
+    return isTrue
+})
+
+console.log('post:', post.value);
+console.log('isHeartActiveComputed:', isHeartActiveComputed.value);
+console.log('isSavedActiveComputed:', isSavedActiveComputed.value);
+
+
 </script>
 
 <template>
+
     <div class="flex z-20 items-center justify-between">
         <div class="flex items-center">
             <button @click="$emit('like', { post, user })" class="-mt-[14px]">
@@ -41,6 +60,11 @@ const isHeartActiveComputed = computed(() => {
             <SendOutline class="pl-3 pt-[10px]" :size="30" />
         </div>
 
-        <BookmarkOutline class="pl-3 pt-[10px]" :size="30" />
+        <button @click="$emit('saved', { post, user })" class="-mt-[14px]">
+            <BookmarkOutline v-if="!isSavedActiveComputed" class="pl-3 pt-[10px] cursor-pointer" :size="30" />
+            <BookmarkOutline v-else class="pl-3 pt-[10px] cursor-pointer" fillColor="#FF0000" :size="30" />
+        </button>
+
     </div>
+
 </template>

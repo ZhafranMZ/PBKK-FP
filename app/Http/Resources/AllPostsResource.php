@@ -38,11 +38,18 @@ class AllPostsResource extends ResourceCollection
                         'post_id' => $like->post_id
                     ];
                 }),
+                'saveds' => $post->saveds->map(function ($saved) {
+                    return [
+                        'id' => $saved->id,
+                        'user_id' => $saved->user_id,
+                        'post_id' => $saved->post_id
+                    ];
+                }),
                 'user' => [
                     'id' => $post->user->id,
                     'name' => $post->user->name,
                     'file' => $post->user->file
-                ]
+                ],
             ];
         })->all();
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AllPostsResource;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Saved;
 use App\Services\FileManageService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,12 +31,21 @@ class UserController extends Controller
         $follower = DB::table('followers')->where('following_id', $id)->count();
         $following = DB::table('followers')->where('follower_id', $id)->count();
         // dd($follower);
+        $savedPosts = $user->saveds()->with('post')->get();
+        $allSaved = [];
+        foreach ($savedPosts as $savedPost) {
+            $post = $savedPost->post;
+            $allSaved[] = $post;
+        }
+        $transformedSavedPosts = new AllPostsResource($allSaved);
+
         return Inertia::render('User', [
             'user' => $user,
             'postsByUser' => new AllPostsResource($posts),
             'follow' => $follow,
             'follower' => $follower,
-            'following' => $following,
+            'following' => $following,,
+            'savedsByUser' => $transformedSavedPosts,
         ]);
     }
 
@@ -47,4 +57,5 @@ class UserController extends Controller
 
         return redirect()->route('users.show',['id' => auth()->user()->id]);
     }
+
 }
