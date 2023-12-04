@@ -3,9 +3,11 @@ import { toRefs } from 'vue'
 
 defineEmits(['close', 'deleteSelected', 'edit'])
 // const proppost = defineProps(['post'])
-const props = defineProps({ editContent:{type:String, default:''}, type: String, id: Number, userId: String }, ['post'])
+const props = defineProps({ editContent:{type:String, default:''}, type: String, id: Number, userId: String, post: Object, comment: Object})
 
-const { editContent, type, id } = toRefs(props)
+const { editContent, type, id, post, userId, comment } = toRefs(props)
+
+console.log(comment);
 </script>
 
 <template>
@@ -21,34 +23,13 @@ const { editContent, type, id } = toRefs(props)
                 Delete {{ type }}
             </button>
             <button
-                v-if="post.user.id === user.id"
+                v-if="type === 'Post' && post.user.id === userId || type === 'Comment' && comment.user.id === userId"
                 @click="$emit('edit', {type, editContent}); $emit('close')"
                 class="font-extrabold w-full p-3 text-lg border-b border-b-gray-300 cursor-pointer"
             >
-                Edit 
+                Edit {{ type }}
             </button>
             <div class="p-3 text-lg cursor-pointer" @click="$emit('close')">Cancel</div>
         </div>
     </div>
 </template>
-<!-- <script setup>
-    import { router, useForm, usePage } from '@inertiajs/vue3';
-    import { ref, reactive, defineEmits } from 'vue';
-    import { Inertia } from '@inertiajs/inertia-vue3';
-
-    import PrimaryButton from '@/Components/PrimaryButton.vue';
-
-    import Close from 'vue-material-design-icons/Close.vue';
-
-    // Get the authenticated user from the page props
-    const user = usePage().props.auth.user
-
-    // Define the emitted events
-    const emit = defineEmits(['close'])
-
-    // Create a reactive form object with a file property
-    const form = ref({
-        file: null,
-    })
-
-    // Create reactive -->

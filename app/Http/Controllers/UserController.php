@@ -44,7 +44,7 @@ class UserController extends Controller
             'postsByUser' => new AllPostsResource($posts),
             'follow' => $follow,
             'follower' => $follower,
-            'following' => $following,,
+            'following' => $following,
             'savedsByUser' => $transformedSavedPosts,
         ]);
     }

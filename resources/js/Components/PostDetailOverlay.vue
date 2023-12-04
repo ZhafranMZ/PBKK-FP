@@ -15,6 +15,7 @@ let editId = ref(0)
 let type = ref(null)
 let id = ref(null)
 let edit = ref('')
+let comObject = ref()
 let editContent = ref('')
 
 const user = usePage().props.auth.user
@@ -22,7 +23,9 @@ const user = usePage().props.auth.user
 const props = defineProps(['post'])
 const { post } = toRefs(props)
 
-defineEmits(['closeOverlay', 'addComment', 'updateLike', 'deleteSelected', 'updateSelected', 'edit', 'updateSaved'])
+console.log(post)
+
+defineEmits(['closeOverlay', 'addComment', 'updateLike', 'deleteSelected', 'updateSelected', 'edit'])
 
 const textareaInput = (e) => {
     textarea.value.style.height = "auto";
@@ -132,7 +135,7 @@ const textareaInput = (e) => {
                                 <DotsHorizontal
                                     v-if="user.id === comment.user.id && !edit || !edit === 'Comment' && editId !== comment.id"
                                     class="cursor-pointer"
-                                    @click="editId=comment.id; editContent=comment.comment; type = 'Comment'; id = comment.id"
+                                    @click="editId=comment.id; editContent=comment.comment; type = 'Comment'; id = comment.id; comObject = comment;"
                                     :size="27"
                                 />
                             </div>
@@ -181,7 +184,6 @@ const textareaInput = (e) => {
                         class="px-2 border-t mb-2"
                         :post="post"
                         @like="$emit('updateLike', $event)"
-                        @saved="$emit('updateSaved', $event)"
                     />
 
                     <div class="absolute flex border bottom-0 w-full max-h-[200px] bg-white overflow-auto">
@@ -227,6 +229,7 @@ const textareaInput = (e) => {
         :editContent="editContent"
         :userId="user.id"
         :post="post"
+        :comment="comObject"
         @deleteSelected="
             $emit('deleteSelected', {
                 type: $event.type,
