@@ -17,6 +17,7 @@ import MenuItem from '@/Components/MenuItem.vue'
 import PostOverlay from '@/Components/PostOverlay.vue'
 import FollowSection from '@/Components/FollowSection.vue'
 
+
 let showCreatePost = ref(false)
 
 </script>

@@ -15,8 +15,11 @@ import AccountBoxOutline from 'vue-material-design-icons/AccountBoxOutline.vue';
 let data = reactive({ post: null })
 const form = reactive({ file: null })
 
-const props = defineProps({ postsByUser: Object, user: Object, follow: Boolean, follower: Number, following: Number})
-const { postsByUser, user, follow, follower, following } = toRefs(props)
+import { ref } from 'vue';
+const activeSection = ref('Post');
+
+const props = defineProps({ postsByUser: Object, user: Object, savedsByUser: Object, follow: Boolean, follower: Number, following: Number})
+const { postsByUser, user, follow, follower, following, savedsByUser} = toRefs(props)
 
 const addComment = (object) => {
     router.post('/comments', {
@@ -61,6 +64,31 @@ const updateLike = (object) => {
         })
     } else {
         router.post('/likes', {
+            post_id: object.post.id,
+        },{
+            onFinish: () => updatedPost(object),
+        })
+    }
+}
+
+const updateSaved = (object) => {
+    let deleteSaved = false
+    let id = null
+
+    for (let i = 0; i < object.post.saveds.length; i++) {
+        const saved = object.post.saveds[i];
+        if (saved.user_id === object.user.id && saved.post_id === object.post.id) {
+            deleteSaved = true
+            id = saved.id
+        }
+    }
+
+    if (deleteSaved) {
+        router.delete('/saveds/' + id, {
+            onFinish: () => updatedPost(object),
+        })
+    } else {
+        router.post('/saveds', {
             post_id: object.post.id,
         },{
             onFinish: () => updatedPost(object),
@@ -120,6 +148,14 @@ const getUploadedImage = (e) => {
         preserveState: false
     })
 }
+
+
+const changeSection = (section) => {
+    activeSection.value = section;
+    console.log('Current Section:', section);
+}
+
+
 
 const toFollow = (id) => {
     console.log(id);
@@ -219,13 +255,13 @@ const toUnfollow = (id) => {
             </div>
 
             <div class="w-full flex items-center justify-between border-t border-t-gray-300">
-                <div class="p-3 w-1/4 flex justify-center border-t border-t-gray-900">
+                <div class="p-3 w-1/4 flex justify-center" @click="changeSection('Post')">
                     <Grid :size="28" fillColor="#0095F6" class="cursor-pointer"/>
                 </div>
                 <div class="p-3 w-1/4 flex justify-center">
                     <PlayBoxOutline :size="28" fillColor="#8E8E8E" class="cursor-pointer"/>
                 </div>
-                <div class="p-3 w-1/4 flex justify-center">
+                <div class="p-3 w-1/4 flex justify-center" @click="changeSection('Bookmarks')">
                     <BookmarkOutline :size="28" fillColor="#8E8E8E" class="cursor-pointer"/>
                 </div>
                 <div class="p-3 w-1/4 flex justify-center">
@@ -234,20 +270,20 @@ const toUnfollow = (id) => {
             </div>
         </div>
 
-        <div id="ContentSection" class="md:pr-1.5 lg:pl-0 md:pl-[90px]">
+        <div id="ContentSection" :class="{ 'hidden': activeSection !== 'Post' }" class="md:pr-1.5 lg:pl-0 md:pl-[90px]">
             <div class="md:block mt-10 hidden border-t border-t-gray-300">
                 <div class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-400 text-[15px]">
-                    <div class="p-[17px] w-1/4 flex justify-center items-center border-t border-t-gray-900">
-                        <Grid :size="15" fillColor="#000000" class="cursor-pointer"/>
+                    <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Post')">
+                        <Grid :size="15" :fillColor="activeSection === 'Post' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
                         <div class="ml-2 -mb-[1px] text-gray-900">POSTS</div>
                     </div>
                     <div class="p-[17px] w-1/4 flex justify-center items-center">
                         <PlayBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <div class="ml-2 -mb-[1px] text-gray-900">REELS</div>
+                        <div class="ml-2 -mb-[1px] ">REELS</div>
                     </div>
-                    <div class="p-[17px] w-1/4 flex justify-center items-center">
-                        <BookmarkOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
-                        <span class="ml-2 -mb-[1px]">SAVED</span>
+                    <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Bookmarks')">
+                        <BookmarkOutline :size="15" :fillColor="activeSection === 'Bookmarks' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
+                        <span class="ml-2 -mb-[1px] ">SAVED</span>
                     </div>
                     <div class="p-[17px] w-1/4 flex justify-center items-center">
                         <AccountBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
@@ -264,6 +300,39 @@ const toUnfollow = (id) => {
                     />
                 </div>
             </div>
+        </div>
+        
+        <div id="ContentSection" :class="{ 'hidden': activeSection !== 'Bookmarks' }" class="md:pr-1.5 lg:pl-0 md:pl-[90px]">
+            <div class="md:block mt-10 hidden border-t border-t-gray-300">
+                <div class="flex items-center justify-between max-w-[600px] mx-auto font-extrabold text-gray-400 text-[15px]">
+                    <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Post')">
+                        <Grid :size="15" :fillColor="activeSection === 'Post' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
+                        <div class="ml-2 -mb-[1px]">POSTS</div>
+                    </div>
+                    <div class="p-[17px] w-1/4 flex justify-center items-center">
+                        <PlayBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
+                        <div class="ml-2 -mb-[1px] ">REELS</div>
+                    </div>
+                    <div class="p-[17px] w-1/4 flex justify-center" @click="changeSection('Bookmarks')">
+                        <BookmarkOutline :size="15" :fillColor="activeSection === 'Bookmarks' ? '#0095F6' : '#8E8E8E'" class="cursor-pointer"/>
+                        <span class="ml-2 -mb-[1px]  text-gray-900">SAVED</span>
+                    </div>
+                    <div class="p-[17px] w-1/4 flex justify-center items-center">
+                        <AccountBoxOutline :size="15" fillColor="#8E8E8E" class="cursor-pointer"/>
+                        <span class="ml-2 -mb-[1px]">TAGGED</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:gap-4 gap-1 grid-cols-3 relative">
+                <div v-for="savedByUser in savedsByUser.data" :key="savedByUser">
+                    <UserContent
+                        :postByUser="savedByUser"
+                        @selectedPost="data.saved = $event"
+                    />
+                </div>
+            </div>
+                
 
             <div class="pb-20"></div>
         </div>
@@ -274,6 +343,7 @@ const toUnfollow = (id) => {
         :post="data.post"
         @addComment="addComment($event)"
         @updateLike="updateLike($event)"
+        @updateSaved="updateSaved($event)"
         @deleteSelected="
             deleteFunc($event);
         "

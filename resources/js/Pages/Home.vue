@@ -120,6 +120,31 @@
         }
     }
 
+    const updateSaved = (object) => {
+        let deleteSaved = false
+        let id = null
+
+        for (let i = 0; i < object.post.saveds.length; i++) {
+            const saved = object.post.saveds[i];
+            if (saved.user_id === object.user.id && saved.post_id === object.post.id) {
+                deleteSaved = true
+                id = saved.id
+            }
+        }
+
+        if (deleteSaved) {
+            router.delete('/saveds/' + id, {
+                onFinish: () => updatedPost(object),
+            })
+        } else {
+            router.post('/saveds', {
+                post_id: object.post.id,
+            },{
+                onFinish: () => updatedPost(object),
+            })
+        }
+    }
+
     const updatedPost = (object) => {
         for (let i = 0; i < posts.value.data.length; i++) {
             const post = posts.value.data[i];
@@ -182,9 +207,16 @@
                 <InteractionSection
                     :post="post"
                     @like="updateLike($event)"
+                    @saved="updateSaved($event)"
                 />
 
-                <div class="text-black font-extrabold py-1">{{ post.likes.length }} likes</div>
+                <div class="flex z-20 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="text-black font-extrabold py-1 mr-4">{{ post.likes.length }} likes</div>
+                        <div class="text-black font-extrabold py-1">{{ post.saveds.length }} saved</div>
+                    </div>
+                </div>
+
                 <div>
                     <span class="text-black font-extrabold">{{ post.user.name }}</span>
                     {{ post.text }}
@@ -206,6 +238,7 @@
         :post="currentPost"
         @addComment="addComment($event)"
         @updateLike="updateLike($event)"
+        @updateSaved="updateSaved($event)"
         @deleteSelected="
             deleteFunc($event)
         "
