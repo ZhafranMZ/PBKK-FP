@@ -41,9 +41,9 @@ const isSavedActiveComputed = computed(() => {
     return isTrue
 })
 
-console.log('post:', post.value);
-console.log('isHeartActiveComputed:', isHeartActiveComputed.value);
-console.log('isSavedActiveComputed:', isSavedActiveComputed.value);
+// console.log('post:', post.value);
+// console.log('isHeartActiveComputed:', isHeartActiveComputed.value);
+// console.log('isSavedActiveComputed:', isSavedActiveComputed.value);
 
 
 </script>

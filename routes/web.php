@@ -56,19 +56,27 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/profile/{id}', [ProfileController::class, 'updatePhoto'])->name('profile.update_photo');
 
+    Route::get('/whotofollow/{id}', [FollowerController::class, 'shownonfollower'])->name('follow.nonfol');
     Route::get('/follow/{id}', [FollowerController::class, 'index'])->name('follow.index');
     Route::post('/follow/{id}', [FollowerController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{id}', [FollowerController::class, 'destroy'])->name('follow.destroy');
 
+    foreach (scandir($path = app_path('Http/Module')) as $dir) {
+        if (file_exists($filepath = "{$path}/{$dir}/Presentation/web.php")) {
+            require $filepath;
+        }
+    }
 
     Route::get('/try', function(){
-        // $user=User::find(4);
-        // // $data=$user->email;
-        // // dd($data);
-        // $type='Logged in';
-        // Mail::to($user->email)->send(new SendMail($type));
-
-        // dispatch(new SendMailNotification($user, $type));
+        $id = 4;
+        $followed = DB::table('followers')->select('following_id')->where('follower_id', $id)->get();
+        
+        $followedId = $followed->pluck('following_id')->toArray();
+        $whoToFollow = DB::table('users')->whereIn('id', $followedId)->get();
+        dd($whoToFollow);
+        return [
+            'data' => $whoToFollow,
+        ];
     }
 
 );

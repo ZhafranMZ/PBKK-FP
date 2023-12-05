@@ -38,9 +38,9 @@ class LikeController extends Controller
         $like->user_id = auth()->user()->id;
         // $user = User::find($like->user_id);
         $like->post_id = $request->input('post_id');
+        $like->save();
         $post = Post::find($like->post_id);
         $user = User::find($post->user_id);
-        $like->save();
         $type = 'Received Like';
         dispatch(new SendMailNotification($user, $type));
     }

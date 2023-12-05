@@ -14,13 +14,6 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    // public function index(){
-    //     $user = User::first(); 
-    //     // dd($user->get());
-        
-    //     return view('profile')->with(['user'=>$user]);
-    // }
-
     public function show($id)
     {
         $user = User::find($id);
