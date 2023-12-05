@@ -17,8 +17,16 @@ import MenuItem from '@/Components/MenuItem.vue'
 import PostOverlay from '@/Components/PostOverlay.vue'
 import FollowSection from '@/Components/FollowSection.vue'
 
+import Search from '@/Pages/Search.vue'
+
 
 let showCreatePost = ref(false)
+let showSearchBar = ref(false);
+
+const toggleSearchBar = () => {
+  showSearchBar.value = !showSearchBar.value;
+  console.log('Current search:', showSearchBar);
+};
 
 </script>
 
@@ -75,7 +83,9 @@ let showCreatePost = ref(false)
                 <Link href="/">
                     <MenuItem iconString="Home" class="mb-4"/>
                 </Link>
-                    <MenuItem iconString="Search" class="mb-4"/>
+                <Link href="/search">
+                    <MenuItem @click=toggleSearchBar() iconString="Search" class="mb-4"/>
+                </Link>
                     <MenuItem iconString="Explore" class="mb-4"/>
                     <MenuItem iconString="Messages" class="mb-4"/>
                     <MenuItem iconString="Notifications" class="mb-4"/>
@@ -95,11 +105,15 @@ let showCreatePost = ref(false)
                 class="mx-auto md:pt-6 pt-20"
                 :class="$page.url === '/' ? 'lg:w-8/12 w-full' : 'max-w-[1200px]'"
             >
+                <div v-if="$showSearchBar == true">
+                
+                    <Search/>
+                </div>
                 <main>
                     <slot />
                 </main>
             </div>
-
+            
             <div v-if="$page.url === '/'" id="SuggestionsSection" class="lg:w-4/12 lg:block hidden text-black mt-10">
                 <Link :href="route('users.show', { id: $page.props.auth.user.id })" class="flex items-center justify-between max-w-[300px]">
                     <div class="flex items-center">

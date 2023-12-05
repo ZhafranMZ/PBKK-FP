@@ -9,6 +9,8 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavedController;
+use App\Http\Controllers\SearchController;
+
 use App\Jobs\SendMailNotification;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -60,7 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/follow/{id}', [FollowerController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{id}', [FollowerController::class, 'destroy'])->name('follow.destroy');
 
-
     Route::get('/try', function(){
         // $user=User::find(4);
         // // $data=$user->email;
@@ -69,9 +70,24 @@ Route::middleware('auth')->group(function () {
         // Mail::to($user->email)->send(new SendMail($type));
 
         // dispatch(new SendMailNotification($user, $type));
-    }
 
-);
+        $query = "M";
+
+        $users = User::where('name', 'like', '%' . $query . '%')->get();
+        foreach ($users as $user) {
+            $u = $user;
+            $allU[] = $u;
+        }
+        dd($allU);
+    });
+
+    Route::get('/search', [UserController::class, 'searchpage'])->name('user.searchs');
+    Route::get('/search/{query}', [UserController::class, 'search'])->name('user.search');
+
+    // Route::middleware(['web', \App\Http\Middleware\HandleInertiaRequests::class])->group(function () {
+    //     Route::inertia('/search/{search?}', [UserController::class, 'search'])->name('user.search');
+    // });
+
 });
 
 

@@ -58,4 +58,25 @@ class UserController extends Controller
         return redirect()->route('users.show',['id' => auth()->user()->id]);
     }
 
+    public function searchpage(){
+        return Inertia::render('Search');
+    }
+    public function search($query)
+    {
+        // $query = $request->input('query');
+        if(!$query) return [
+            'users' => User::all()        
+        ];
+        $users = User::where('name', 'like', '%' . $query . '%')->get();
+        foreach ($users as $user) {
+            $userCheck = $user;
+            $allUser[] = $userCheck;
+        }
+
+        return [
+            'users' => $allUser        
+        ];
+
+        // return response()->json(['users' => $users]);       
+    }
 }
