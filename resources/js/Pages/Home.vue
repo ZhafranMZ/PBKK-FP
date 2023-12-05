@@ -114,7 +114,7 @@
                 onFinish: () => updatedPost(object),
             })
         } else {
-            router.post('/likes', {
+            router.post('/store_like', {
                 post_id: object.post.id,
             },{
                 onFinish: () => updatedPost(object),
@@ -163,7 +163,7 @@
     <Layout>
         <div class="mx-auto lg:pl-0 md:pl-[80px] pl-0">
             <div class="w-full flex justify-center relative mt-3">
-                <div class="animate-ping top-[15%] absolute z-0 inline-flex h-3/4 w-1/4 rounded-full bg-sky-800 opacity-75" />
+                <div class="animate-ping top-[15%] absolute z-0 inline-flex h-3/4 w-[31%] rounded-full bg-sky-800 opacity-75" />
                 <button @click="showCreatePost = true" class=" text-lg z-30 bg-blue-700 rounded-xl py-3 px-10 text-white font-medium">
                     Ready to <span class=" font-black">ECHO</span> your mind ?
                 </button>

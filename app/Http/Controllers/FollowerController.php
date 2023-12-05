@@ -56,9 +56,15 @@ class FollowerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function shownonfollower($id)
     {
-        // 
+        $followed = DB::table('followers')->select('following_id')->where('follower_id', $id)->get();
+        $followedId = $followed->pluck('following_id')->toArray();
+        $whoToFollow = DB::table('users')->whereNotIn('id', $followedId)->inRandomOrder()->limit(5)->get();
+        // dd($whoToFollow);
+        return [
+            'data' => $whoToFollow,
+        ];
     }
 
     /**

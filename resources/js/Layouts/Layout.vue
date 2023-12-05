@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 
@@ -16,7 +16,25 @@ import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue
 import MenuItem from '@/Components/MenuItem.vue'
 import PostOverlay from '@/Components/PostOverlay.vue'
 import FollowSection from '@/Components/FollowSection.vue'
+import { onMounted } from 'vue';
 
+let usersToFollow = reactive({data: []});
+const user = usePage().props.auth.user;
+const getData = async () => {
+    try {
+    const response = await axios.get('/whotofollow/'+ user.id);
+    console.log("----");
+    console.log(response);
+    usersToFollow.data = response.data.data;
+    console.log(usersToFollow)
+    } catch (error) {
+    console.error('Error fetching data:', error);
+    }
+};
+
+onMounted(getData);
+console.log("++++");
+console.log(usersToFollow);
 
 let showCreatePost = ref(false)
 
@@ -121,7 +139,7 @@ let showCreatePost = ref(false)
                     </button>
                 </div>
 
-                <div v-for="randUser in $page.props.randomUsers" :key="randUser" >
+                <div v-for="randUser in usersToFollow.data" :key="randUser" >
                     <div v-if="$page.props.auth.user.id !== randUser.id" class="flex justify-between">
                         <Link :href="route('users.show', { id: randUser.id })" class="flex items-center justify-between max-w-[300px] pb-2">
                         <div class="flex items-center">
@@ -136,7 +154,7 @@ let showCreatePost = ref(false)
                                 Follow
                             </button> -->
                         </Link>
-                        <FollowSection :user_id = "randUser.id"/>
+                        <FollowSection :user_id = "randUser.id" @click="getData()"/>
                     </div>
                     
                 </div>
