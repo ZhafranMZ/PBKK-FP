@@ -20,6 +20,12 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
+    mounted(){
+        Echo.private('chat')
+            .listen('ChatMade', (e) => {
+                console.log(e)
+            })
+    }
 });
 
 
