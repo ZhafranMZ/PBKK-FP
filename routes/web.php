@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavedController;
+use App\Http\Controllers\ChatController;
 use App\Jobs\SendMailNotification;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/follow/{id}', [FollowerController::class, 'store'])->name('follow.store');
     Route::delete('/follow/{id}', [FollowerController::class, 'destroy'])->name('follow.destroy');
 
+    Route::get('/chat',[ChatController::class, 'chat'])->name('chat.msg');
+    Route::post('/send',[ChatController::class, 'send'])->name('chat.send');
+    // Route::get
     foreach (scandir($path = app_path('Http/Module')) as $dir) {
         if (file_exists($filepath = "{$path}/{$dir}/Presentation/web.php")) {
             require $filepath;

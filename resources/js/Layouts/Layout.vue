@@ -93,10 +93,11 @@ let showCreatePost = ref(false)
                 <Link href="/">
                     <MenuItem iconString="Home" class="mb-4"/>
                 </Link>
+                <Link :href="route('user.searchs')">
                     <MenuItem iconString="Search" class="mb-4"/>
-                    <MenuItem iconString="Explore" class="mb-4"/>
-                    <MenuItem iconString="Messages" class="mb-4"/>
-                    <MenuItem iconString="Notifications" class="mb-4"/>
+                </Link>
+                <!-- <Link :href="route('/chat')"> -->
+                <!-- </Link> -->
                     <MenuItem @click="showCreatePost = true" iconString="Create" class="mb-4"/>
                 <Link :href="route('users.show', { id: $page.props.auth.user.id })">
                     <MenuItem iconString="Profile" class="mb-4"/>

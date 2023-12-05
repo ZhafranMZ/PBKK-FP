@@ -176,7 +176,7 @@ const toUnfollow = (id) => {
 </script>
 
 <template>
-    <Head title="Echo" />
+    <Head title="Profile" />
 
     <Layout>
         <div class="pt-2 md:pt-6"></div>

@@ -10,32 +10,28 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChatMade
+class ChatMade implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    private $message;
+    public $message;
+    public $user;
     /**
      * Create a new event instance.
      */
-    public function __construct($message)
+    public function __construct($message, $user)
     {
         $this->message = $message;
+        $this->user = $user;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): array
+   
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('ChatNotif.'),
-        ];
+        return new PrivateChannel('chat');
     }
 
-    public function broadcastAs(): string
-    {
-        return 'ChatMade';
-    }
+    // public function broadcastAs(): string
+    // {
+    //     return 'ChatMade';
+    // }
 }
